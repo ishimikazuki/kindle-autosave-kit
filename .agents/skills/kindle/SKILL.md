@@ -181,6 +181,7 @@ tail -5 <PROJECT_ROOT>/books/data/{NNN}_{slug}/capture.log
 pip3 install --user playwright
 python3 -m playwright install chromium
 gcloud auth application-default login
+gcloud config set project <your-gcp-project-id>
 gcloud services enable vision.googleapis.com
 export KINDLE_CAPTURE_GCP_PROJECT="<your-gcp-project-id>"
 ```

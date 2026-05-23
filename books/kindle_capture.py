@@ -117,11 +117,27 @@ def image_hash(path: Path) -> str:
 
 def _get_gcp_token() -> str:
     """gcloud CLI からアクセストークンを取得"""
-    result = subprocess.run(
+    commands = [
+        ["gcloud", "auth", "application-default", "print-access-token"],
         ["gcloud", "auth", "print-access-token"],
+    ]
+    for command in commands:
+        result = subprocess.run(command, capture_output=True, text=True, timeout=10)
+        token = result.stdout.strip()
+        if result.returncode == 0 and token:
+            return token
+    return ""
+
+
+def _get_gcp_project() -> str:
+    if GCP_PROJECT:
+        return GCP_PROJECT
+    result = subprocess.run(
+        ["gcloud", "config", "get-value", "project"],
         capture_output=True, text=True, timeout=10
     )
-    return result.stdout.strip()
+    project = result.stdout.strip()
+    return "" if project == "(unset)" else project
 
 
 def ocr_image(path: Path, language: str = "ja") -> str:
@@ -145,8 +161,9 @@ def ocr_image(path: Path, language: str = "ja") -> str:
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
         }
-        if GCP_PROJECT:
-            headers["x-goog-user-project"] = GCP_PROJECT
+        gcp_project = _get_gcp_project()
+        if gcp_project:
+            headers["x-goog-user-project"] = gcp_project
 
         req = urllib.request.Request(
             "https://vision.googleapis.com/v1/images:annotate",

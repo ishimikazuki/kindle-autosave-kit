@@ -34,6 +34,7 @@ Then install dependencies:
 python3 -m pip install --user -r /path/to/your-project/requirements-kindle.txt
 python3 -m playwright install chromium
 gcloud auth application-default login
+gcloud config set project <your-gcp-project-id>
 gcloud services enable vision.googleapis.com --project <your-gcp-project-id>
 export KINDLE_CAPTURE_GCP_PROJECT="<your-gcp-project-id>"
 ```
@@ -52,6 +53,8 @@ python3 /path/to/your-project/books/kindle_login.py
 ```
 
 If 2FA or CAPTCHA appears, complete it in the displayed browser.
+
+After installing the skill files, restart Codex/Claude or start a new session so the new `kindle` skill is discovered.
 
 ## Usage
 
