@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local browser/session data
+books/.browser-profile/
+
+# Large temporary capture files
+books/data/*/screenshots/
+books/data/*/debug_*.png
+books/data/*/capture.log
+books/data/*/progress.json
+books/data/*/content_partial.md

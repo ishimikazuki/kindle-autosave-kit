@@ -1,0 +1,5 @@
+# スクリーンショットは容量が大きいので Git に含めない
+data/*/screenshots/
+
+# ブラウザプロファイル（cookie・ログイン情報を含む）
+.browser-profile/
